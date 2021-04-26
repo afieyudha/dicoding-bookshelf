@@ -15,7 +15,7 @@ const addBookHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  // Check Data
+  // Check Data Add Book Without Name
   if (!name) {
     const response = h.response({
       status: 'fail',
@@ -26,6 +26,7 @@ const addBookHandler = (request, h) => {
     return response;
   }
 
+  // Check Data Add Book with Page Read More Than Page Count
   if (pageCount < readPage) {
     const response = h.response({
       status: 'fail',
@@ -92,19 +93,23 @@ const getAllBooksHandler = (request, h) => {
 
   let booksFilter = books;
 
+  // Filter Optional with name
   if (name !== undefined) {
     booksFilter = booksFilter.filter((book) => book
       .name.toLowerCase().includes(name.toLowerCase()));
   }
 
+  // Filter Optional with reading books
   if (reading !== undefined) {
     booksFilter = booksFilter.filter((book) => book.reading === !!Number(reading));
   }
 
+  // Filter Optional with finished books
   if (finished !== undefined) {
     booksFilter = booksFilter.filter((book) => book.finished === !!Number(finished));
   }
 
+  // Response Data
   const response = h.response({
     status: 'success',
     data: {
@@ -159,7 +164,7 @@ const editBookByIdHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  // Check Data
+  // Check Data Update Book Without Name
   if (!name) {
     const response = h.response({
       status: 'fail',
@@ -170,6 +175,7 @@ const editBookByIdHandler = (request, h) => {
     return response;
   }
 
+  // Check Data Update Book With Page Read More Than Page Count
   if (pageCount < readPage) {
     const response = h.response({
       status: 'fail',
@@ -200,6 +206,7 @@ const editBookByIdHandler = (request, h) => {
       updatedAt,
     };
 
+    // Response Data
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil diperbarui',
@@ -224,7 +231,7 @@ const deleteBookByIdHandler = (request, h) => {
 
   const index = books.findIndex((book) => book.id === id);
 
-  // Check Data
+  // Check Data Delete Books
   if (index !== -1) {
     books.splice(index, 1);
 
@@ -246,6 +253,7 @@ const deleteBookByIdHandler = (request, h) => {
   return response;
 };
 
+// All module export
 module.exports = {
   addBookHandler,
   getAllBooksHandler,
