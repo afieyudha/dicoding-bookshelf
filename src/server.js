@@ -2,13 +2,23 @@
 const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
 
-const init = async () => {
+// localhost
+/* const init = async () => {
   const server = Hapi.server({
     port: 5000,
-    host:
-      process.env.NODE_ENV === 'development'
-        ? 'localhost'
-        : 'dicoding-bookshelf.herokuapp.com',
+    host: 'localhost',
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
+  }); */
+
+// production
+const init = async () => {
+  const server = Hapi.server({
+    port: process.env.PORT || 5000,
+    host: '0.0.0.0',
     routes: {
       cors: {
         origin: ['*'],
